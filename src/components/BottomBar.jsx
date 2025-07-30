@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Menu, ChevronDown, ArrowRight, Power, ToggleLeft } from 'lucide-react';
 
 const BottomBar = () => {
+  const [autoDedupe, setAutoDedupe] = useState(true);
+  const [autoRunColumns, setAutoRunColumns] = useState(true);
+
   return (
     <div className="fixed bottom-0 left-0 right-0 bg-gray-100 border-t border-gray-200 px-6 py-3">
       <div className="flex items-center justify-between">
@@ -31,15 +34,33 @@ const BottomBar = () => {
           
           <div className="flex items-center space-x-2">
             <span className="text-sm text-gray-700">Auto Dedupe</span>
-            <div className="relative inline-block w-10 h-6 bg-blue-500 rounded-full cursor-pointer">
-              <div className="absolute right-1 top-1 w-4 h-4 bg-white rounded-full transition-transform"></div>
+            <div 
+              className={`relative inline-block w-10 h-6 rounded-full cursor-pointer transition-colors duration-200 ${
+                autoDedupe ? 'bg-blue-500' : 'bg-gray-300'
+              }`}
+              onClick={() => setAutoDedupe(!autoDedupe)}
+            >
+              <div 
+                className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-transform duration-200 ${
+                  autoDedupe ? 'translate-x-4' : 'translate-x-0'
+                }`}
+              ></div>
             </div>
           </div>
           
           <div className="flex items-center space-x-2">
             <span className="text-sm text-gray-700">Auto Run Columns</span>
-            <div className="relative inline-block w-10 h-6 bg-blue-500 rounded-full cursor-pointer">
-              <div className="absolute right-1 top-1 w-4 h-4 bg-white rounded-full transition-transform"></div>
+            <div 
+              className={`relative inline-block w-10 h-6 rounded-full cursor-pointer transition-colors duration-200 ${
+                autoRunColumns ? 'bg-blue-500' : 'bg-gray-300'
+              }`}
+              onClick={() => setAutoRunColumns(!autoRunColumns)}
+            >
+              <div 
+                className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-transform duration-200 ${
+                  autoRunColumns ? 'translate-x-4' : 'translate-x-0'
+                }`}
+              ></div>
             </div>
           </div>
         </div>

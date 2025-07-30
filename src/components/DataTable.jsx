@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { User, Calendar, ChevronDown, ExternalLink, Star, X, Edit, Copy, Settings, Plus, Trash2, Braces, Cloud, Upload, CheckCircle, Globe, Phone, AlertCircle } from 'lucide-react';
+import { User, Calendar, ChevronDown, ExternalLink, Star, X, Edit, Copy, Settings, Plus, Trash2, Braces, Cloud, Upload, CheckCircle, Globe, Phone, AlertCircle, Play } from 'lucide-react';
 import DropdownMenu from './DropdownMenu.jsx';
 
 const DataTable = ({ data }) => {
   const [contextMenu, setContextMenu] = useState({ show: false, x: 0, y: 0 });
   const [savingStatus, setSavingStatus] = useState('Changes saved');
   const [activeDropdown, setActiveDropdown] = useState(null);
+  const [showAddRow, setShowAddRow] = useState(false);
+  const [rowsToAdd, setRowsToAdd] = useState(1);
   const contextMenuRef = useRef(null);
 
   const getStatusColor = (text) => {
@@ -84,81 +86,18 @@ const DataTable = ({ data }) => {
 
   return (
     <div className="overflow-x-auto relative">
-      {/* Mobile view - card layout */}
-      <div className="block lg:hidden">
-        {data.map((row) => (
-          <div key={row.id} className="bg-white border border-gray-200 rounded-lg mb-4 p-4 shadow-sm">
-            <div className="grid grid-cols-2 gap-3 text-sm">
-              <div className="col-span-2 flex items-center space-x-2 mb-2">
-                <span className="font-medium text-gray-900">#{row.id}</span>
-                <span className="text-gray-600">•</span>
-                <span className="font-medium text-gray-900">{row.source}</span>
-              </div>
-              
-              <div>
-                <span className="text-gray-500 text-xs uppercase tracking-wide">Last Updated</span>
-                <p className="text-gray-900 mt-1">{truncateText(row.lastUpdatedAt, 20)}</p>
-              </div>
-              
-              <div>
-                <span className="text-gray-500 text-xs uppercase tracking-wide">ICP Status</span>
-                <p className={`mt-1 px-2 py-1 rounded text-xs font-medium inline-block ${
-                  row.findIcp === 'ICP' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
-                }`}>
-                  {row.findIcp}
-                </p>
-              </div>
-              
-              <div className="col-span-2">
-                <span className="text-gray-500 text-xs uppercase tracking-wide">Company</span>
-                <p className={`text-gray-900 mt-1 ${getStatusColor(row.enrichCompany2)}`}>
-                  {truncateText(row.enrichCompany2, 30)}
-                </p>
-              </div>
-              
-              <div className="col-span-2">
-                <span className="text-gray-500 text-xs uppercase tracking-wide">Domain</span>
-                <p className={`text-gray-900 mt-1 ${getStatusColor(row.domainFromEmail)}`}>
-                  {truncateText(row.domainFromEmail, 25)}
-                </p>
-              </div>
-              
-              <div className="col-span-2">
-                <span className="text-gray-500 text-xs uppercase tracking-wide">Waterfall People 1</span>
-                <p className={`text-gray-900 mt-1 ${getStatusColor(row.waterfallPeople1)}`}>
-                  {truncateText(row.waterfallPeople1, 25)}
-                </p>
-              </div>
-              
-              <div className="col-span-2">
-                <span className="text-gray-500 text-xs uppercase tracking-wide">Waterfall People 2</span>
-                <p className={`text-gray-900 mt-1 ${getStatusColor(row.waterfallPeople2)}`}>
-                  {truncateText(row.waterfallPeople2, 25)}
-                </p>
-              </div>
-              
-              <div className="col-span-2">
-                <span className="text-gray-500 text-xs uppercase tracking-wide">LinkedIn URL</span>
-                <p className="text-blue-600 mt-1 truncate">
-                  {truncateText(row.linkedinJobUrl, 30)}
-                </p>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-      
-      {/* Desktop view - table layout */}
-      <table className="w-full border-collapse border border-gray-200 hidden lg:table">
+      <table className="w-full border-collapse border border-gray-200 min-w-max">
         <thead>
           <tr className="bg-yellow-50">
             <th 
-              className="sticky left-0 z-10 px-4 py-3 text-left text-sm font-medium text-gray-900 bg-yellow-50 border border-gray-200 cursor-pointer hover:bg-yellow-100"
+              className="sticky left-0 z-10 px-3 sm:px-4 py-3 text-left text-sm font-medium text-gray-900 bg-yellow-50 border border-gray-200 cursor-pointer hover:bg-yellow-100 min-w-[60px]"
             >
-              #
+              <div className="flex items-center justify-center">
+                <Play className="w-4 h-4 text-gray-700" />
+              </div>
             </th>
             <th
-              className="px-4 py-3 text-left text-sm font-medium text-gray-900 bg-yellow-50 border border-gray-200 cursor-pointer hover:bg-yellow-100"
+              className="px-3 sm:px-4 py-3 text-left text-sm font-medium text-gray-900 bg-yellow-50 border border-gray-200 cursor-pointer hover:bg-yellow-100 min-w-[120px]"
               onContextMenu={(e) => handleColumnRightClick(e, 'SOURCE COLUMN')}
             >
               <div className="flex items-center space-x-2">
@@ -167,7 +106,7 @@ const DataTable = ({ data }) => {
               </div>
             </th>
             <th
-              className="px-4 py-3 text-left text-sm font-medium text-gray-900 bg-yellow-50 border border-gray-200 cursor-pointer hover:bg-yellow-100"
+              className="px-3 sm:px-4 py-3 text-left text-sm font-medium text-gray-900 bg-yellow-50 border border-gray-200 cursor-pointer hover:bg-yellow-100 min-w-[140px]"
               onContextMenu={(e) => handleColumnRightClick(e, 'LAST UPDATED AT')}
             >
               <div className="flex items-center space-x-2">
@@ -176,19 +115,19 @@ const DataTable = ({ data }) => {
               </div>
             </th>
             <th
-              className="px-4 py-3 text-left text-sm font-medium text-gray-900 bg-yellow-50 border border-gray-200 cursor-pointer hover:bg-yellow-100"
+              className="px-3 sm:px-4 py-3 text-left text-sm font-medium text-gray-900 bg-yellow-50 border border-gray-200 cursor-pointer hover:bg-yellow-100 min-w-[150px]"
               onContextMenu={(e) => handleColumnRightClick(e, 'WATERFALL PEOPLE 1')}
             >
               <span>Waterfall - People 1</span>
             </th>
             <th
-              className="px-4 py-3 text-left text-sm font-medium text-gray-900 bg-yellow-50 border border-gray-200 cursor-pointer hover:bg-yellow-100"
+              className="px-3 sm:px-4 py-3 text-left text-sm font-medium text-gray-900 bg-yellow-50 border border-gray-200 cursor-pointer hover:bg-yellow-100 min-w-[180px]"
               onContextMenu={(e) => handleColumnRightClick(e, 'ENRICH COMPANY 2')}
             >
               <span>Enrich Company 2</span>
             </th>
             <th
-              className="px-4 py-3 text-left text-sm font-medium text-gray-900 bg-yellow-50 border border-gray-200 cursor-pointer hover:bg-yellow-100"
+              className="px-3 sm:px-4 py-3 text-left text-sm font-medium text-gray-900 bg-yellow-50 border border-gray-200 cursor-pointer hover:bg-yellow-100 min-w-[100px]"
               onContextMenu={(e) => handleColumnRightClick(e, 'FIND ICP')}
             >
               <div className="flex items-center space-x-2">
@@ -197,7 +136,7 @@ const DataTable = ({ data }) => {
               </div>
             </th>
             <th
-              className="px-4 py-3 text-left text-sm font-medium text-gray-900 bg-yellow-50 border border-gray-200 cursor-pointer hover:bg-yellow-100"
+              className="px-3 sm:px-4 py-3 text-left text-sm font-medium text-gray-900 bg-yellow-50 border border-gray-200 cursor-pointer hover:bg-yellow-100 min-w-[150px]"
               onContextMenu={(e) => handleColumnRightClick(e, 'LINKEDIN JOB URL')}
             >
               <div className="flex items-center space-x-2">
@@ -206,19 +145,19 @@ const DataTable = ({ data }) => {
               </div>
             </th>
             <th
-              className="px-4 py-3 text-left text-sm font-medium text-gray-900 bg-yellow-50 border border-gray-200 cursor-pointer hover:bg-yellow-100"
+              className="px-3 sm:px-4 py-3 text-left text-sm font-medium text-gray-900 bg-yellow-50 border border-gray-200 cursor-pointer hover:bg-yellow-100 min-w-[140px]"
               onContextMenu={(e) => handleColumnRightClick(e, 'DOMAIN FROM EMAIL')}
             >
               <span>Domain from Email</span>
             </th>
             <th
-              className="px-4 py-3 text-left text-sm font-medium text-gray-900 bg-yellow-50 border border-gray-200 cursor-pointer hover:bg-yellow-100"
+              className="px-3 sm:px-4 py-3 text-left text-sm font-medium text-gray-900 bg-yellow-50 border border-gray-200 cursor-pointer hover:bg-yellow-100 min-w-[150px]"
               onContextMenu={(e) => handleColumnRightClick(e, 'WATERFALL PEOPLE 2')}
             >
               <span>Waterfall - People 2</span>
             </th>
             <th 
-              className="px-4 py-3 text-left text-sm font-medium text-gray-900 bg-yellow-50 border border-gray-200 cursor-pointer hover:bg-yellow-100"
+              className="px-3 sm:px-4 py-3 text-left text-sm font-medium text-gray-900 bg-yellow-50 border border-gray-200 cursor-pointer hover:bg-yellow-100 min-w-[120px]"
             >
               <button className="flex items-center space-x-2 text-blue-600 hover:text-blue-700">
                 <Plus className="w-4 h-4" />
@@ -230,36 +169,36 @@ const DataTable = ({ data }) => {
         <tbody>
           {data.map((row) => (
             <tr key={row.id} className="hover:bg-gray-50">
-              <td className="px-4 py-3 text-sm text-gray-900 border border-gray-200 bg-yellow-50">
+              <td className="px-3 sm:px-4 py-3 text-sm text-gray-900 border border-gray-200 bg-yellow-50">
                 {row.id}
               </td>
-              <td className="px-4 py-3 text-sm text-gray-900 border border-gray-200 bg-yellow-50">
+              <td className="px-3 sm:px-4 py-3 text-sm text-gray-900 border border-gray-200 bg-yellow-50">
                 <div className="flex items-center space-x-2">
                   <User className="w-4 h-4 text-gray-400" />
                   <span title={row.source}>{truncateText(row.source)}</span>
                 </div>
               </td>
-              <td className="px-4 py-3 text-sm text-gray-900 border border-gray-200 text-center">
+              <td className="px-3 sm:px-4 py-3 text-sm text-gray-900 border border-gray-200 text-center">
                 <span title={row.lastUpdatedAt}>{truncateText(row.lastUpdatedAt)}</span>
               </td>
-              <td className={`px-4 py-3 text-sm border border-gray-200 ${getStatusBgColor(row.waterfallPeople1)}`}>
+              <td className={`px-3 sm:px-4 py-3 text-sm border border-gray-200 ${getStatusBgColor(row.waterfallPeople1)}`}>
                 <span className={getStatusColor(row.waterfallPeople1)} title={row.waterfallPeople1}>
                   {truncateText(row.waterfallPeople1)}
                 </span>
               </td>
-              <td className={`px-4 py-3 text-sm border border-gray-200 ${getStatusBgColor(row.enrichCompany2)}`}>
+              <td className={`px-3 sm:px-4 py-3 text-sm border border-gray-200 ${getStatusBgColor(row.enrichCompany2)}`}>
                 <span className={getStatusColor(row.enrichCompany2)} title={row.enrichCompany2}>
                   {truncateText(row.enrichCompany2)}
                 </span>
               </td>
-              <td className="px-4 py-3 text-sm text-gray-900 border border-gray-200 text-center">
+              <td className="px-3 sm:px-4 py-3 text-sm text-gray-900 border border-gray-200 text-center">
                 <span className={`px-2 py-1 rounded text-xs font-medium ${
                   row.findIcp === 'ICP' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
                 }`}>
                   {row.findIcp}
                 </span>
               </td>
-              <td className={`px-4 py-3 text-sm border border-gray-200 ${getStatusBgColor(row.linkedinJobUrl)}`}>
+              <td className={`px-3 sm:px-4 py-3 text-sm border border-gray-200 ${getStatusBgColor(row.linkedinJobUrl)}`}>
                 <div className="flex items-center space-x-2">
                   <ExternalLink className="w-4 h-4 text-blue-600" />
                   <span className={getStatusColor(row.linkedinJobUrl)} title={row.linkedinJobUrl}>
@@ -267,21 +206,96 @@ const DataTable = ({ data }) => {
                   </span>
                 </div>
               </td>
-              <td className={`px-4 py-3 text-sm border border-gray-200 ${getStatusBgColor(row.domainFromEmail)}`}>
+              <td className={`px-3 sm:px-4 py-3 text-sm border border-gray-200 ${getStatusBgColor(row.domainFromEmail)}`}>
                 <span className={getStatusColor(row.domainFromEmail)} title={row.domainFromEmail}>
                   {truncateText(row.domainFromEmail)}
                 </span>
               </td>
-              <td className={`px-4 py-3 text-sm border border-gray-200 ${getStatusBgColor(row.waterfallPeople2)}`}>
+              <td className={`px-3 sm:px-4 py-3 text-sm border border-gray-200 ${getStatusBgColor(row.waterfallPeople2)}`}>
                 <span className={getStatusColor(row.waterfallPeople2)} title={row.waterfallPeople2}>
                   {truncateText(row.waterfallPeople2)}
                 </span>
               </td>
-              <td className="px-4 py-3 text-sm text-gray-900 border border-gray-200">
+              <td className="px-3 sm:px-4 py-3 text-sm text-gray-900 border border-gray-200">
                 {/* Empty cell for ADD COLUMN */}
               </td>
             </tr>
           ))}
+          
+          {/* Add Row Row */}
+          <tr className="border-t-2 border-gray-300">
+            <td className="px-3 sm:px-4 py-3 text-sm text-gray-500 border border-gray-200 bg-gray-50 text-center">
+              {data.length + 1}
+            </td>
+            <td className="px-3 sm:px-4 py-3 text-sm text-gray-900 border border-gray-200 bg-gray-50">
+              <div className="flex items-center justify-center space-x-2">
+                {!showAddRow ? (
+                  <button
+                    onClick={() => setShowAddRow(true)}
+                    className="flex items-center space-x-1 px-2 py-1 text-xs text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded transition-colors"
+                  >
+                    <Plus className="w-3 h-3" />
+                    <span>Add Row</span>
+                  </button>
+                ) : (
+                  <div className="flex items-center space-x-2">
+                    <input
+                      type="number"
+                      min="1"
+                      max="100"
+                      value={rowsToAdd}
+                      onChange={(e) => setRowsToAdd(Math.max(1, parseInt(e.target.value) || 1))}
+                      className="w-12 px-1 py-1 text-xs border border-gray-300 rounded text-center"
+                      placeholder="1"
+                    />
+                    <button
+                      onClick={() => {
+                        console.log(`Adding ${rowsToAdd} rows`);
+                        setShowAddRow(false);
+                        setRowsToAdd(1);
+                      }}
+                      className="px-2 py-1 text-xs text-green-600 hover:text-green-700 hover:bg-green-50 rounded transition-colors"
+                    >
+                      Add
+                    </button>
+                    <button
+                      onClick={() => {
+                        setShowAddRow(false);
+                        setRowsToAdd(1);
+                      }}
+                      className="px-2 py-1 text-xs text-gray-500 hover:text-gray-700 hover:bg-gray-50 rounded transition-colors"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                )}
+              </div>
+            </td>
+            <td className="px-3 sm:px-4 py-3 text-sm text-gray-500 border border-gray-200 bg-gray-50 text-center">
+              <span className="text-gray-400">-</span>
+            </td>
+            <td className="px-3 sm:px-4 py-3 text-sm text-gray-500 border border-gray-200 bg-gray-50 text-center">
+              <span className="text-gray-400">-</span>
+            </td>
+            <td className="px-3 sm:px-4 py-3 text-sm text-gray-500 border border-gray-200 bg-gray-50 text-center">
+              <span className="text-gray-400">-</span>
+            </td>
+            <td className="px-3 sm:px-4 py-3 text-sm text-gray-500 border border-gray-200 bg-gray-50 text-center">
+              <span className="text-gray-400">-</span>
+            </td>
+            <td className="px-3 sm:px-4 py-3 text-sm text-gray-500 border border-gray-200 bg-gray-50 text-center">
+              <span className="text-gray-400">-</span>
+            </td>
+            <td className="px-3 sm:px-4 py-3 text-sm text-gray-500 border border-gray-200 bg-gray-50 text-center">
+              <span className="text-gray-400">-</span>
+            </td>
+            <td className="px-3 sm:px-4 py-3 text-sm text-gray-500 border border-gray-200 bg-gray-50 text-center">
+              <span className="text-gray-400">-</span>
+            </td>
+            <td className="px-3 sm:px-4 py-3 text-sm text-gray-500 border border-gray-200 bg-gray-50 text-center">
+              <span className="text-gray-400">-</span>
+            </td>
+          </tr>
         </tbody>
       </table>
 

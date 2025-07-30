@@ -1,16 +1,21 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ChevronDown, Filter, ArrowUpDown, Star, MoreHorizontal, Grid, SortAsc, SortDesc, Plus, Trash2, Edit, Copy, Settings, Share, Download, FileText, Users, Sparkles, Type, Link, Braces } from 'lucide-react';
+import { ChevronDown, Filter, ArrowUpDown, Star, MoreHorizontal, Grid, SortAsc, SortDesc, Plus, Trash2, Edit, Copy, Settings, Share, Download, FileText, Users, Sparkles, Type, Link, Braces, Cloud, Upload, Database, Building, Globe, Calendar, X } from 'lucide-react';
 import DropdownMenu from './DropdownMenu.jsx';
 
 const Toolbar = () => {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [rowsPopover, setRowsPopover] = useState(false);
   const [columnsPopover, setColumnsPopover] = useState(false);
+  const [dataSourcePopover, setDataSourcePopover] = useState(false);
+  const [filterPopover, setFilterPopover] = useState(false);
   const [rowsCount, setRowsCount] = useState(5);
   const [columnsCount, setColumnsCount] = useState(5);
+  const [selectedDataSource, setSelectedDataSource] = useState('Data Source');
   
   const rowsRef = useRef(null);
   const columnsRef = useRef(null);
+  const dataSourceRef = useRef(null);
+  const filterRef = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -19,6 +24,12 @@ const Toolbar = () => {
       }
       if (columnsRef.current && !columnsRef.current.contains(event.target)) {
         setColumnsPopover(false);
+      }
+      if (dataSourceRef.current && !dataSourceRef.current.contains(event.target)) {
+        setDataSourcePopover(false);
+      }
+      if (filterRef.current && !filterRef.current.contains(event.target)) {
+        setFilterPopover(false);
       }
     };
 
@@ -63,6 +74,24 @@ const Toolbar = () => {
     { label: 'Formula Column', icon: <Braces className="w-4 h-4" />, onClick: () => console.log('Formula Column') },
   ];
 
+  const dataSourceMenuItems = [
+    { label: 'Data Source', icon: <Cloud className="w-4 h-4" />, onClick: () => setSelectedDataSource('API Data') },
+    { label: 'CSV Upload', icon: <Upload className="w-4 h-4" />, onClick: () => setSelectedDataSource('CSV Upload') },
+    { label: 'Excel File', icon: <FileText className="w-4 h-4" />, onClick: () => setSelectedDataSource('Excel File') },
+    { label: 'Database', icon: <Database className="w-4 h-4" />, onClick: () => setSelectedDataSource('Database') },
+    { separator: true },
+    { label: 'Connect New Source', icon: <Plus className="w-4 h-4" />, onClick: () => console.log('Connect New Source') },
+  ];
+
+  const filterMenuItems = [
+    { label: 'Filter by ICP Status', icon: <Filter className="w-4 h-4" />, onClick: () => console.log('Filter by ICP Status') },
+    { label: 'Filter by Company', icon: <Building className="w-4 h-4" />, onClick: () => console.log('Filter by Company') },
+    { label: 'Filter by Domain', icon: <Globe className="w-4 h-4" />, onClick: () => console.log('Filter by Domain') },
+    { label: 'Filter by Date Range', icon: <Calendar className="w-4 h-4" />, onClick: () => console.log('Filter by Date Range') },
+    { separator: true },
+    { label: 'Clear All Filters', icon: <X className="w-4 h-4" />, onClick: () => console.log('Clear All Filters') },
+  ];
+
   const handleDropdownToggle = (dropdownName) => {
     setActiveDropdown(activeDropdown === dropdownName ? null : dropdownName);
   };
@@ -71,10 +100,43 @@ const Toolbar = () => {
     <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between px-4 sm:px-6 py-3 bg-gray-50 border-b border-gray-200 space-y-3 lg:space-y-0">
       <div className="flex flex-wrap items-center gap-2 lg:gap-4 w-full lg:w-auto">
         {/* Data Source */}
-        <button className="flex items-center space-x-1 px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50">
-          <span>Data Source</span>
-          <ChevronDown className="w-4 h-4" />
-        </button>
+        <div className="relative" ref={dataSourceRef}>
+          <button 
+            className="flex items-center space-x-1 px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50"
+            onClick={() => setDataSourcePopover(!dataSourcePopover)}
+          >
+            <span>{selectedDataSource}</span>
+            <ChevronDown className="w-4 h-4" />
+          </button>
+          
+          {dataSourcePopover && (
+            <div 
+              className="absolute top-full left-0 mt-1 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50 min-w-48"
+              onMouseLeave={() => setDataSourcePopover(false)}
+            >
+              {dataSourceMenuItems.map((item, index) => (
+                <div key={index}>
+                  {item.separator ? (
+                    <div className="border-t border-gray-200 my-1"></div>
+                  ) : (
+                    <button
+                      onClick={() => {
+                        item.onClick();
+                        setDataSourcePopover(false);
+                      }}
+                      className={`w-full px-4 py-2 text-left text-sm hover:bg-gray-50 flex items-center space-x-2 ${
+                        item.label === selectedDataSource ? 'bg-blue-50 text-blue-700' : 'text-gray-700'
+                      }`}
+                    >
+                      {item.icon}
+                      <span>{item.label}</span>
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
         
         {/* Rows Popover */}
         <div className="relative" ref={rowsRef}>
@@ -205,10 +267,43 @@ const Toolbar = () => {
           )}
         </div>
         
-        <button className="flex items-center space-x-1 px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50">
-          <Filter className="w-4 h-4" />
-          <span>Filter</span>
-        </button>
+        {/* Filter */}
+        <div className="relative" ref={filterRef}>
+          <button 
+            className="flex items-center space-x-1 px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50"
+            onClick={() => setFilterPopover(!filterPopover)}
+          >
+            <Filter className="w-4 h-4" />
+            <span>Filter</span>
+            <ChevronDown className="w-4 h-4" />
+          </button>
+          
+          {filterPopover && (
+            <div 
+              className="absolute top-full left-0 mt-1 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50 min-w-48"
+              onMouseLeave={() => setFilterPopover(false)}
+            >
+              {filterMenuItems.map((item, index) => (
+                <div key={index}>
+                  {item.separator ? (
+                    <div className="border-t border-gray-200 my-1"></div>
+                  ) : (
+                    <button
+                      onClick={() => {
+                        item.onClick();
+                        setFilterPopover(false);
+                      }}
+                      className="w-full px-4 py-2 text-left text-sm hover:bg-gray-50 flex items-center space-x-2 text-gray-700"
+                    >
+                      {item.icon}
+                      <span>{item.label}</span>
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
         
 
         

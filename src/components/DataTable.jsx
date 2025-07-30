@@ -6,7 +6,6 @@ const DataTable = ({ data }) => {
   const [contextMenu, setContextMenu] = useState({ show: false, x: 0, y: 0 });
   const [savingStatus, setSavingStatus] = useState('Changes saved');
   const [activeDropdown, setActiveDropdown] = useState(null);
-  const [columnDropdown, setColumnDropdown] = useState({ show: false, x: 0, y: 0 });
 
   const getStatusColor = (text) => {
     if (typeof text !== 'string') {
@@ -78,7 +77,6 @@ const DataTable = ({ data }) => {
             <th
               className="px-4 py-3 text-left text-sm font-medium text-gray-900 bg-yellow-50 border border-gray-200 cursor-pointer hover:bg-yellow-100"
               onContextMenu={(e) => handleColumnRightClick(e, 'SOURCE COLUMN')}
-              onClick={handleHeaderClick}
             >
               <div className="flex items-center space-x-2">
                 <User className="w-4 h-4" />
@@ -88,7 +86,6 @@ const DataTable = ({ data }) => {
             <th
               className="px-4 py-3 text-left text-sm font-medium text-gray-900 bg-yellow-50 border border-gray-200 cursor-pointer hover:bg-yellow-100"
               onContextMenu={(e) => handleColumnRightClick(e, 'LAST UPDATED AT')}
-              onClick={handleHeaderClick}
             >
               <div className="flex items-center space-x-2">
                 <Calendar className="w-4 h-4" />
@@ -98,21 +95,18 @@ const DataTable = ({ data }) => {
             <th
               className="px-4 py-3 text-left text-sm font-medium text-gray-900 bg-yellow-50 border border-gray-200 cursor-pointer hover:bg-yellow-100"
               onContextMenu={(e) => handleColumnRightClick(e, 'WATERFALL PEOPLE 1')}
-              onClick={handleHeaderClick}
             >
               <span>Waterfall - People 1</span>
             </th>
             <th
               className="px-4 py-3 text-left text-sm font-medium text-gray-900 bg-yellow-50 border border-gray-200 cursor-pointer hover:bg-yellow-100"
               onContextMenu={(e) => handleColumnRightClick(e, 'ENRICH COMPANY 2')}
-              onClick={handleHeaderClick}
             >
               <span>Enrich Company 2</span>
             </th>
             <th
               className="px-4 py-3 text-left text-sm font-medium text-gray-900 bg-yellow-50 border border-gray-200 cursor-pointer hover:bg-yellow-100"
               onContextMenu={(e) => handleColumnRightClick(e, 'FIND ICP')}
-              onClick={handleHeaderClick}
             >
               <div className="flex items-center space-x-2">
                 <Globe className="w-4 h-4" />
@@ -122,7 +116,6 @@ const DataTable = ({ data }) => {
             <th
               className="px-4 py-3 text-left text-sm font-medium text-gray-900 bg-yellow-50 border border-gray-200 cursor-pointer hover:bg-yellow-100"
               onContextMenu={(e) => handleColumnRightClick(e, 'LINKEDIN JOB URL')}
-              onClick={handleHeaderClick}
             >
               <div className="flex items-center space-x-2">
                 <ExternalLink className="w-4 h-4" />
@@ -132,20 +125,17 @@ const DataTable = ({ data }) => {
             <th
               className="px-4 py-3 text-left text-sm font-medium text-gray-900 bg-yellow-50 border border-gray-200 cursor-pointer hover:bg-yellow-100"
               onContextMenu={(e) => handleColumnRightClick(e, 'DOMAIN FROM EMAIL')}
-              onClick={handleHeaderClick}
             >
               <span>Domain from Email</span>
             </th>
             <th
               className="px-4 py-3 text-left text-sm font-medium text-gray-900 bg-yellow-50 border border-gray-200 cursor-pointer hover:bg-yellow-100"
               onContextMenu={(e) => handleColumnRightClick(e, 'WATERFALL PEOPLE 2')}
-              onClick={handleHeaderClick}
             >
               <span>Waterfall - People 2</span>
             </th>
             <th 
               className="px-4 py-3 text-left text-sm font-medium text-gray-900 bg-yellow-50 border border-gray-200 cursor-pointer hover:bg-yellow-100"
-              onClick={handleHeaderClick}
             >
               <button className="flex items-center space-x-2 text-blue-600 hover:text-blue-700">
                 <Plus className="w-4 h-4" />
@@ -242,35 +232,7 @@ const DataTable = ({ data }) => {
         </div>
       )}
 
-      {/* Column Dropdown Menu - Click on first column header */}
-      {columnDropdown.show && (
-        <div
-          className="fixed z-50 bg-white rounded-lg shadow-lg border border-gray-200 py-1 min-w-48"
-          style={{ left: columnDropdown.x, top: columnDropdown.y }}
-          onMouseLeave={() => setColumnDropdown({ show: false, x: 0, y: 0 })}
-        >
-          {columnContextMenuItems.map((item, index) => (
-            <div key={index}>
-              {item.separator ? (
-                <div className="border-t border-gray-200 my-1"></div>
-              ) : (
-                <button
-                  onClick={() => {
-                    item.onClick();
-                    setColumnDropdown({ show: false, x: 0, y: 0 });
-                  }}
-                  className={`w-full px-4 py-2 text-left text-sm hover:bg-gray-50 flex items-center space-x-2 ${
-                    item.destructive ? 'text-red-600 hover:bg-red-50' : 'text-gray-700'
-                  }`}
-                >
-                  {item.icon}
-                  <span>{item.label}</span>
-                </button>
-              )}
-            </div>
-          ))}
-        </div>
-      )}
+
 
 
     </div>

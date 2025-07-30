@@ -234,17 +234,29 @@ const Toolbar = () => {
           onToggle={(isOpen) => handleDropdownToggle(isOpen ? 'action' : null)}
         />
         
-        <button 
-          onClick={() => {
-            // Simulate unsaved changes when Enrichment is clicked
-            const event = new CustomEvent('triggerUnsavedChanges');
-            document.dispatchEvent(event);
-          }}
-          className="flex items-center space-x-2 px-4 py-2 text-sm font-medium text-white bg-black rounded hover:bg-gray-800"
-        >
-          <Star className="w-4 h-4" />
-          <span>Add Enrichment</span>
-        </button>
+        <DropdownMenu
+          trigger={
+            <button 
+              onClick={() => {
+                // Simulate unsaved changes when Enrichment is clicked
+                const event = new CustomEvent('triggerUnsavedChanges');
+                document.dispatchEvent(event);
+              }}
+              className="flex items-center space-x-2 px-4 py-2 text-sm font-medium text-white bg-black rounded hover:bg-gray-800"
+            >
+              <Star className="w-4 h-4" />
+              <span>Add Enrichment</span>
+              <ChevronDown className="w-4 h-4" />
+            </button>
+          }
+          items={[
+            { label: 'Input Column', icon: <Type className="w-4 h-4" />, onClick: () => console.log('Input Column') },
+            { label: 'Merge Column', icon: <Link className="w-4 h-4" />, onClick: () => console.log('Merge Column') },
+            { label: 'Formula Column', icon: <Braces className="w-4 h-4" />, onClick: () => console.log('Formula Column') },
+          ]}
+          isOpen={activeDropdown === 'enrichment'}
+          onToggle={(isOpen) => handleDropdownToggle(isOpen ? 'enrichment' : null)}
+        />
       </div>
     </div>
   );

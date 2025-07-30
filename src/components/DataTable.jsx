@@ -84,7 +84,72 @@ const DataTable = ({ data }) => {
 
   return (
     <div className="overflow-x-auto relative">
-      <table className="w-full border-collapse border border-gray-200">
+      {/* Mobile view - card layout */}
+      <div className="block lg:hidden">
+        {data.map((row) => (
+          <div key={row.id} className="bg-white border border-gray-200 rounded-lg mb-4 p-4 shadow-sm">
+            <div className="grid grid-cols-2 gap-3 text-sm">
+              <div className="col-span-2 flex items-center space-x-2 mb-2">
+                <span className="font-medium text-gray-900">#{row.id}</span>
+                <span className="text-gray-600">•</span>
+                <span className="font-medium text-gray-900">{row.source}</span>
+              </div>
+              
+              <div>
+                <span className="text-gray-500 text-xs uppercase tracking-wide">Last Updated</span>
+                <p className="text-gray-900 mt-1">{truncateText(row.lastUpdatedAt, 20)}</p>
+              </div>
+              
+              <div>
+                <span className="text-gray-500 text-xs uppercase tracking-wide">ICP Status</span>
+                <p className={`mt-1 px-2 py-1 rounded text-xs font-medium inline-block ${
+                  row.findIcp === 'ICP' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
+                }`}>
+                  {row.findIcp}
+                </p>
+              </div>
+              
+              <div className="col-span-2">
+                <span className="text-gray-500 text-xs uppercase tracking-wide">Company</span>
+                <p className={`text-gray-900 mt-1 ${getStatusColor(row.enrichCompany2)}`}>
+                  {truncateText(row.enrichCompany2, 30)}
+                </p>
+              </div>
+              
+              <div className="col-span-2">
+                <span className="text-gray-500 text-xs uppercase tracking-wide">Domain</span>
+                <p className={`text-gray-900 mt-1 ${getStatusColor(row.domainFromEmail)}`}>
+                  {truncateText(row.domainFromEmail, 25)}
+                </p>
+              </div>
+              
+              <div className="col-span-2">
+                <span className="text-gray-500 text-xs uppercase tracking-wide">Waterfall People 1</span>
+                <p className={`text-gray-900 mt-1 ${getStatusColor(row.waterfallPeople1)}`}>
+                  {truncateText(row.waterfallPeople1, 25)}
+                </p>
+              </div>
+              
+              <div className="col-span-2">
+                <span className="text-gray-500 text-xs uppercase tracking-wide">Waterfall People 2</span>
+                <p className={`text-gray-900 mt-1 ${getStatusColor(row.waterfallPeople2)}`}>
+                  {truncateText(row.waterfallPeople2, 25)}
+                </p>
+              </div>
+              
+              <div className="col-span-2">
+                <span className="text-gray-500 text-xs uppercase tracking-wide">LinkedIn URL</span>
+                <p className="text-blue-600 mt-1 truncate">
+                  {truncateText(row.linkedinJobUrl, 30)}
+                </p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      
+      {/* Desktop view - table layout */}
+      <table className="w-full border-collapse border border-gray-200 hidden lg:table">
         <thead>
           <tr className="bg-yellow-50">
             <th 

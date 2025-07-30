@@ -63,11 +63,11 @@ const Header = () => {
   };
 
   return (
-    <div className="flex items-center justify-between px-6 py-3 bg-white border-b border-gray-200">
+    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between px-4 sm:px-6 py-3 bg-white border-b border-gray-200 space-y-3 sm:space-y-0">
       {/* Left side */}
-      <div className="flex items-center space-x-3">
+      <div className="flex items-center space-x-2 sm:space-x-3 w-full sm:w-auto">
         <button className="text-gray-400 hover:text-gray-600">
-          <ArrowLeft className="w-5 h-5" />
+          <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
         </button>
         <button 
           onClick={handleBookmark}
@@ -75,21 +75,24 @@ const Header = () => {
             isBookmarked ? 'text-yellow-500' : 'text-gray-400'
           }`}
         >
-          <Star className={`w-5 h-5 ${isBookmarked ? 'fill-current' : ''}`} />
+          <Star className={`w-4 h-4 sm:w-5 sm:h-5 ${isBookmarked ? 'fill-current' : ''}`} />
         </button>
-        <h1 className="text-lg font-semibold text-gray-900">Bitscale workbook</h1>
-        <button className="text-gray-400 hover:text-gray-600">
-          <MoreHorizontal className="w-5 h-5" />
+        <h1 className="text-base sm:text-lg font-semibold text-gray-900 truncate">Bitscale workbook</h1>
+        <button className="text-gray-400 hover:text-gray-600 ml-auto sm:ml-0">
+          <MoreHorizontal className="w-4 h-4 sm:w-5 sm:h-5" />
         </button>
       </div>
 
       {/* Right side */}
-      <div className="flex items-center space-x-4">
-        {getSaveButtonContent()}
+      <div className="flex items-center space-x-2 sm:space-x-4 w-full sm:w-auto justify-between sm:justify-end">
+        <div className="hidden sm:block">
+          {getSaveButtonContent()}
+        </div>
         
-        <div className="flex items-center space-x-2 text-sm text-gray-600">
-          <div className="w-4 h-4 bg-green-500 rounded"></div>
-          <span>2,450,005/9,900,000</span>
+        <div className="flex items-center space-x-2 text-xs sm:text-sm text-gray-600">
+          <div className="w-3 h-3 sm:w-4 sm:h-4 bg-green-500 rounded"></div>
+          <span className="hidden sm:inline">2,450,005/9,900,000</span>
+          <span className="sm:hidden">2.4M/9.9M</span>
         </div>
       </div>
     </div>

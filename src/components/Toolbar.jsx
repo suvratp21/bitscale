@@ -68,8 +68,8 @@ const Toolbar = () => {
   };
 
   return (
-    <div className="flex items-center justify-between px-6 py-3 bg-gray-50 border-b border-gray-200">
-      <div className="flex items-center space-x-4">
+    <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between px-4 sm:px-6 py-3 bg-gray-50 border-b border-gray-200 space-y-3 lg:space-y-0">
+      <div className="flex flex-wrap items-center gap-2 lg:gap-4 w-full lg:w-auto">
         {/* Data Source */}
         <button className="flex items-center space-x-1 px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50">
           <span>Data Source</span>
@@ -226,7 +226,7 @@ const Toolbar = () => {
         />
       </div>
       
-      <div className="flex items-center space-x-4">
+      <div className="flex flex-wrap items-center gap-2 lg:gap-4 w-full lg:w-auto justify-start lg:justify-end">
         {/* Action Menu */}
         <DropdownMenu
           trigger={

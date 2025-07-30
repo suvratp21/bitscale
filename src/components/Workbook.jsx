@@ -63,7 +63,7 @@ const Workbook = () => {
         onSearch={handleSearch}
         onRefresh={refreshData}
       />
-      <div className="bg-white overflow-y-auto">
+      <div className="bg-white overflow-y-auto px-4 sm:px-0">
         <DataTable 
           data={data}
           sortField={sortField}

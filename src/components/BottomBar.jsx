@@ -6,8 +6,8 @@ const BottomBar = () => {
   const [autoRunColumns, setAutoRunColumns] = useState(true);
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-gray-100 border-t border-gray-200 px-6 py-3">
-      <div className="flex items-center justify-between">
+    <div className="fixed bottom-0 left-0 right-0 bg-gray-100 border-t border-gray-200 px-4 sm:px-6 py-3">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-3 sm:space-y-0">
         {/* Left side */}
         <div className="flex items-center space-x-4">
           <button className="flex items-center space-x-2 px-3 py-2 bg-white rounded-lg text-sm text-gray-700 hover:bg-gray-50">
@@ -24,7 +24,7 @@ const BottomBar = () => {
         </div>
 
         {/* Right side */}
-        <div className="flex items-center space-x-6">
+        <div className="flex flex-wrap items-center gap-4 sm:gap-6 w-full sm:w-auto justify-start sm:justify-end">
           <div className="flex items-center space-x-2 text-sm text-gray-600">
             <Power className="w-4 h-4" />
             <span>Kill Run</span>

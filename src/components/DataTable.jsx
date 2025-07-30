@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { User, Calendar, ChevronDown, ExternalLink, Star, X, Edit, Copy, Settings, Plus, Trash2, Braces, Cloud, Upload, CheckCircle, Globe, Phone, AlertCircle } from 'lucide-react';
 import DropdownMenu from './DropdownMenu.jsx';
 
@@ -6,6 +6,7 @@ const DataTable = ({ data }) => {
   const [contextMenu, setContextMenu] = useState({ show: false, x: 0, y: 0 });
   const [savingStatus, setSavingStatus] = useState('Changes saved');
   const [activeDropdown, setActiveDropdown] = useState(null);
+  const contextMenuRef = useRef(null);
 
   const getStatusColor = (text) => {
     if (typeof text !== 'string') {
@@ -36,6 +37,23 @@ const DataTable = ({ data }) => {
       columnName
     });
   };
+
+  // Handle click outside context menu
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (contextMenuRef.current && !contextMenuRef.current.contains(event.target)) {
+        setContextMenu({ show: false, x: 0, y: 0 });
+      }
+    };
+
+    if (contextMenu.show) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [contextMenu.show]);
 
 
 
@@ -205,6 +223,7 @@ const DataTable = ({ data }) => {
       {/* Right-click Context Menu */}
       {contextMenu.show && (
         <div
+          ref={contextMenuRef}
           className="fixed z-50 bg-white rounded-lg shadow-lg border border-gray-200 py-1 min-w-48"
           style={{ left: contextMenu.x, top: contextMenu.y }}
           onMouseLeave={() => setContextMenu({ show: false, x: 0, y: 0 })}

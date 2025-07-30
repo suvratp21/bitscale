@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 
 const DropdownMenu = ({ 
   trigger, 
@@ -48,7 +48,10 @@ const DropdownMenu = ({
       </div>
       
       {isOpen && (
-        <div className={`absolute z-50 ${getPositionClasses()} bg-white rounded-lg shadow-lg border border-gray-200 py-1 min-w-48`}>
+        <div 
+          className={`absolute z-50 ${getPositionClasses()} bg-white rounded-lg shadow-lg border border-gray-200 py-1 min-w-48`}
+          onMouseLeave={() => onToggle(false)}
+        >
           {items.map((item, index) => (
             <div key={index}>
               {item.separator ? (

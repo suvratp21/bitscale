@@ -86,7 +86,10 @@ const Toolbar = () => {
           </button>
           
           {rowsPopover && (
-            <div className="absolute top-full left-0 mt-1 bg-white rounded-lg shadow-lg border border-gray-200 p-4 z-50 min-w-64">
+            <div 
+              className="absolute top-full left-0 mt-1 bg-white rounded-lg shadow-lg border border-gray-200 p-4 z-50 min-w-64"
+              onMouseLeave={() => setRowsPopover(false)}
+            >
               <div className="space-y-4">
                 <h3 className="text-sm font-medium text-gray-900">Rows</h3>
                 
@@ -160,7 +163,10 @@ const Toolbar = () => {
           </button>
           
           {columnsPopover && (
-            <div className="absolute top-full left-0 mt-1 bg-white rounded-lg shadow-lg border border-gray-200 p-4 z-50 min-w-64">
+            <div 
+              className="absolute top-full left-0 mt-1 bg-white rounded-lg shadow-lg border border-gray-200 p-4 z-50 min-w-64"
+              onMouseLeave={() => setColumnsPopover(false)}
+            >
               <div className="space-y-4">
                 <h3 className="text-sm font-medium text-gray-900">column</h3>
                 

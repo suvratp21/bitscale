@@ -1,16 +1,4 @@
-export interface TableRow {
-  id: number;
-  source: string;
-  lastUpdatedAt: string;
-  findIcp: 'ICP' | 'NON - ICP';
-  linkedinJobUrl: string;
-  waterfallPeople1: string;
-  enrichCompany2: string;
-  domainFromEmail: string;
-  waterfallPeople2: string;
-}
-
-export const sampleData: TableRow[] = [
+export const sampleData = [
   {
     id: 1,
     source: 'Bill Gates',

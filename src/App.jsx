@@ -1,4 +1,4 @@
-import Workbook from './components/Workbook';
+import Workbook from './components/Workbook.jsx';
 import './App.css';
 
 function App() {
@@ -9,4 +9,4 @@ function App() {
   );
 }
 
-export default App
+export default App 

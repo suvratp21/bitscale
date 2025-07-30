@@ -35,19 +35,19 @@ const Toolbar = () => {
   ];
 
   const sortMenuItems = [
-    { label: 'Ascending', icon: <SortAsc className="w-4 h-4" />, onClick: () => console.log('Sort Ascending') },
-    { label: 'Descending', icon: <SortDesc className="w-4 h-4" />, onClick: () => console.log('Sort Descending') },
+    { label: 'Ascending', icon: <div className="flex items-center space-x-1"><span className="text-xs">A</span><ArrowUpDown className="w-3 h-3" /><span className="text-xs">Z</span></div>, onClick: () => console.log('Sort Ascending') },
+    { label: 'Descending', icon: <div className="flex items-center space-x-1"><span className="text-xs">Z</span><ArrowUpDown className="w-3 h-3" /><span className="text-xs">A</span></div>, onClick: () => console.log('Sort Descending') },
   ];
 
   const actionMenuItems = [
-    { label: 'Add New Column', icon: <Plus className="w-4 h-4" />, onClick: () => console.log('Add New Column') },
-    { label: 'Add New Row', icon: <Plus className="w-4 h-4" />, onClick: () => console.log('Add New Row') },
+    { label: 'Add New Column', icon: <div className="flex items-center space-x-1"><span className="text-xs">☰</span><Plus className="w-3 h-3" /></div>, onClick: () => console.log('Add New Column') },
+    { label: 'Add New Row', icon: <div className="flex items-center space-x-1"><span className="text-xs">☰</span><Plus className="w-3 h-3" /></div>, onClick: () => console.log('Add New Row') },
     { label: 'Dedupe Column', icon: <Braces className="w-4 h-4" />, onClick: () => console.log('Dedupe Column') },
-    { label: 'Find People for Company', icon: <Users className="w-4 h-4" />, onClick: () => console.log('Find People for Company') },
+    { label: 'Find People for Company', icon: <div className="flex items-center space-x-1"><Users className="w-3 h-3" /><Plus className="w-3 h-3" /></div>, onClick: () => console.log('Find People for Company') },
     { separator: true },
-    { label: 'Share as Link', icon: <Share className="w-4 h-4" />, onClick: () => console.log('Share as Link') },
-    { label: 'Download as Excel', icon: <Download className="w-4 h-4" />, onClick: () => console.log('Download as Excel') },
-    { label: 'Download as CSV', icon: <FileText className="w-4 h-4" />, onClick: () => console.log('Download as CSV') },
+    { label: 'Share as Link', icon: <div className="flex items-center space-x-1"><Share className="w-3 h-3" /><span className="text-xs">••</span></div>, onClick: () => console.log('Share as Link') },
+    { label: 'Download as Excel', icon: <div className="flex items-center space-x-1"><FileText className="w-3 h-3" /><span className="text-xs">↓</span></div>, onClick: () => console.log('Download as Excel') },
+    { label: 'Download as CSV', icon: <div className="flex items-center space-x-1"><Download className="w-3 h-3" /></div>, onClick: () => console.log('Download as CSV') },
   ];
 
   const enrichmentMenuItems = [
@@ -87,50 +87,63 @@ const Toolbar = () => {
           
           {rowsPopover && (
             <div className="absolute top-full left-0 mt-1 bg-white rounded-lg shadow-lg border border-gray-200 p-4 z-50 min-w-64">
-              <div className="space-y-3">
-                <div className="flex items-center space-x-2">
-                  <input
-                    type="number"
-                    value={rowsCount}
-                    onChange={(e) => setRowsCount(parseInt(e.target.value) || 0)}
-                    className="w-20 px-2 py-1 border border-gray-300 rounded text-sm"
-                    min="1"
-                  />
-                  <button className="px-3 py-1 bg-gray-200 text-gray-700 rounded text-sm hover:bg-gray-300">
-                    Add Rows
+              <div className="space-y-4">
+                <h3 className="text-sm font-medium text-gray-900">Rows</h3>
+                
+                <div className="space-y-3">
+                  <div className="flex items-center space-x-2">
+                    <label className="text-sm text-gray-600 w-8">From</label>
+                    <input
+                      type="number"
+                      value="100000"
+                      className="flex-1 px-2 py-1 border border-gray-300 rounded text-sm"
+                      placeholder="100000"
+                    />
+                  </div>
+                  
+                  <div className="flex items-center space-x-2">
+                    <label className="text-sm text-gray-600 w-8">To*</label>
+                    <input
+                      type="number"
+                      value="100000"
+                      className="flex-1 px-2 py-1 border border-gray-300 rounded text-sm"
+                      placeholder="100000"
+                    />
+                  </div>
+                  
+                  <p className="text-xs text-gray-500">*Leave blank to remove limit</p>
+                  
+                  <button className="w-full flex items-center justify-center space-x-2 px-3 py-2 bg-gray-600 text-white rounded text-sm hover:bg-gray-700">
+                    <FileText className="w-4 h-4" />
+                    <span>Apply</span>
+                  </button>
+                  
+                  <button className="w-full flex items-center justify-center space-x-2 px-3 py-2 text-gray-600 hover:text-gray-800 text-sm">
+                    <span className="w-4 h-4">👁</span>
+                    <span>Show All Rows</span>
                   </button>
                 </div>
                 
-                <div className="flex items-center space-x-2">
-                  <Plus className="w-4 h-4 text-gray-600" />
-                  <input
-                    type="number"
-                    value={rowsCount}
-                    onChange={(e) => setRowsCount(parseInt(e.target.value) || 0)}
-                    className="w-20 px-2 py-1 border border-gray-300 rounded text-sm"
-                    min="1"
-                  />
-                  <span className="text-sm text-gray-600">Rows</span>
-                </div>
-                
-                <div className="border-t border-gray-200 pt-2">
-                  <div className="flex items-center space-x-2">
-                    <input
-                      type="number"
-                      value={rowsCount}
-                      onChange={(e) => setRowsCount(parseInt(e.target.value) || 0)}
-                      className="w-20 px-2 py-1 border border-gray-300 rounded text-sm"
-                      min="1"
-                    />
-                    <button className="px-3 py-1 bg-gray-800 text-white rounded text-sm hover:bg-gray-900">
-                      Add Rows
-                    </button>
+                <div className="border-t border-gray-200 pt-3">
+                  <div className="space-y-3">
+                    <div className="flex items-center space-x-2">
+                      <button className="flex items-center space-x-1 px-3 py-1.5 bg-gray-200 text-gray-700 rounded text-sm hover:bg-gray-300">
+                        <Plus className="w-4 h-4" />
+                        <span>Add</span>
+                      </button>
+                      <input
+                        type="number"
+                        value="5"
+                        className="w-16 px-2 py-1 border border-gray-300 rounded text-sm"
+                        min="1"
+                      />
+                      <span className="text-sm text-gray-700">Rows</span>
+                    </div>
                   </div>
                 </div>
                 
-                <button className="w-full flex items-center justify-center space-x-2 px-3 py-2 bg-white border border-gray-300 rounded text-sm hover:bg-gray-50">
-                  <Sparkles className="w-4 h-4" />
-                  <span>Adding Rows</span>
+                <button className="w-full flex items-center justify-center space-x-2 px-3 py-2 bg-gray-200 text-gray-700 rounded text-sm hover:bg-gray-300">
+                  <span>Add Rows</span>
                 </button>
               </div>
             </div>
@@ -148,50 +161,38 @@ const Toolbar = () => {
           
           {columnsPopover && (
             <div className="absolute top-full left-0 mt-1 bg-white rounded-lg shadow-lg border border-gray-200 p-4 z-50 min-w-64">
-              <div className="space-y-3">
-                <div className="flex items-center space-x-2">
-                  <input
-                    type="number"
-                    value={columnsCount}
-                    onChange={(e) => setColumnsCount(parseInt(e.target.value) || 0)}
-                    className="w-20 px-2 py-1 border border-gray-300 rounded text-sm"
-                    min="1"
-                  />
-                  <button className="px-3 py-1 bg-gray-200 text-gray-700 rounded text-sm hover:bg-gray-300">
-                    Add Columns
-                  </button>
+              <div className="space-y-4">
+                <h3 className="text-sm font-medium text-gray-900">column</h3>
+                
+                <div className="space-y-2 max-h-48 overflow-y-auto">
+                  {/* Column list with toggles */}
+                  {[
+                    'Rename Grid',
+                    'For a very long column name th...',
+                    'Rename Grid',
+                    'Rename Grid',
+                    'Rename Grid',
+                    'Rename Grid',
+                    'Rename Grid',
+                    'Rename Grid'
+                  ].map((columnName, index) => (
+                    <div key={index} className="flex items-center justify-between py-1">
+                      <div className="flex items-center space-x-2">
+                        <span className="text-gray-400 text-xs">⋮⋮</span>
+                        <span className="text-sm text-gray-700 truncate">{columnName}</span>
+                      </div>
+                      <div className="flex items-center">
+                        <div className="w-8 h-4 bg-blue-500 rounded-full relative cursor-pointer">
+                          <div className="w-3 h-3 bg-white rounded-full absolute top-0.5 right-0.5"></div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
                 
-                <div className="flex items-center space-x-2">
-                  <Plus className="w-4 h-4 text-gray-600" />
-                  <input
-                    type="number"
-                    value={columnsCount}
-                    onChange={(e) => setColumnsCount(parseInt(e.target.value) || 0)}
-                    className="w-20 px-2 py-1 border border-gray-300 rounded text-sm"
-                    min="1"
-                  />
-                  <span className="text-sm text-gray-600">Columns</span>
-                </div>
-                
-                <div className="border-t border-gray-200 pt-2">
-                  <div className="flex items-center space-x-2">
-                    <input
-                      type="number"
-                      value={columnsCount}
-                      onChange={(e) => setColumnsCount(parseInt(e.target.value) || 0)}
-                      className="w-20 px-2 py-1 border border-gray-300 rounded text-sm"
-                      min="1"
-                    />
-                    <button className="px-3 py-1 bg-gray-800 text-white rounded text-sm hover:bg-gray-900">
-                      Add Columns
-                    </button>
-                  </div>
-                </div>
-                
-                <button className="w-full flex items-center justify-center space-x-2 px-3 py-2 bg-white border border-gray-300 rounded text-sm hover:bg-gray-50">
-                  <Sparkles className="w-4 h-4" />
-                  <span>Adding Columns</span>
+                <button className="w-full flex items-center justify-center space-x-2 px-3 py-2 text-gray-600 hover:text-gray-800 text-sm">
+                  <span className="w-4 h-4">👁</span>
+                  <span>Show All Column</span>
                 </button>
               </div>
             </div>
@@ -203,10 +204,20 @@ const Toolbar = () => {
           <span>Filter</span>
         </button>
         
-        <button className="flex items-center space-x-1 px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50">
-          <ArrowUpDown className="w-4 h-4" />
-          <span>Sort</span>
-        </button>
+
+        
+        <DropdownMenu
+          trigger={
+            <button className="flex items-center space-x-1 px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50">
+              <ArrowUpDown className="w-4 h-4" />
+              <span>Sort</span>
+              <ChevronDown className="w-4 h-4" />
+            </button>
+          }
+          items={sortMenuItems}
+          isOpen={activeDropdown === 'sort'}
+          onToggle={(isOpen) => handleDropdownToggle(isOpen ? 'sort' : null)}
+        />
       </div>
       
       <div className="flex items-center space-x-4">

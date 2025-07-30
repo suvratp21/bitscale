@@ -10,7 +10,7 @@ const ConfigPanel = ({ type, onClose }) => {
     { id: 3, name: 'For a very long column name that gets truncated...', enabled: true },
     { id: 4, name: 'Rename Grid', enabled: true },
     { id: 5, name: 'Rename Grid', enabled: true },
-  ]);
+  ]);https://bitscale-ten-sigma.vercel.app/
 
   const toggleColumn = (id) => {
     setColumns(columns.map(col => 

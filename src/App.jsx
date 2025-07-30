@@ -1,12 +1,15 @@
+import React from 'react';
 import Workbook from './components/Workbook.jsx';
-import './App.css';
+import ErrorBoundary from './components/ErrorBoundary.jsx';
 
 function App() {
   return (
-    <div className="App">
-      <Workbook />
-    </div>
+    <ErrorBoundary>
+      <div className="App">
+        <Workbook />
+      </div>
+    </ErrorBoundary>
   );
 }
 
-export default App 
+export default App; 

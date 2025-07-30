@@ -6,13 +6,8 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   plugins: [react(), tailwindcss(),],
   server: {
-    proxy: {
-      '/api/data': {
-        target: 'https://bitscale_backend.suvratp21.workers.dev',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api\/data/, ''),
-        secure: true,
-      },
-    },
+    port: 5173,
+    strictPort: true,
+    host: true,
   },
 }) 

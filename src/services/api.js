@@ -1,4 +1,4 @@
-const API_BASE_URL = '/api/';
+const API_BASE_URL = '/api/data';
 
 export const fetchTableData = async () => {
   try {

@@ -7,10 +7,10 @@ export default defineConfig({
   plugins: [react(), tailwindcss(),],
   server: {
     proxy: {
-      '/api': {
+      '/api/data': {
         target: 'https://bitscale_backend.suvratp21.workers.dev',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ''),
+        rewrite: (path) => path.replace(/^\/api\/data/, ''),
         secure: true,
       },
     },
